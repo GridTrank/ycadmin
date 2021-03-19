@@ -160,10 +160,6 @@ export default{
                     prop:'is_sale',
                     label:'是否上架',
                 },
-                {
-                    prop:'type',
-                    label:'图片类型',
-                },
             ],
             count:0,
             options:{
@@ -179,7 +175,7 @@ export default{
             selectOption:[],
             //修改条件数据
             changeEditData:[],
-
+            indexList:[]
         }
     },
     components:{
@@ -194,7 +190,7 @@ export default{
     created(){
         this.getData({})
         this.getStoreList()
-
+        this.getIndex()
     },
     methods:{
         //搜索
@@ -245,7 +241,11 @@ export default{
             })
             
         },
-        
+        getIndex(){
+            http.post('/product/index',{},res=>{
+                this.indexList=res
+            })
+        },
         //单个修改
         edit(data){
             this.$router.push({
@@ -391,9 +391,21 @@ export default{
                 }else{
                     ids[0]=data.pid
                 }
-
                 let query={
                     pid:ids
+                }
+                let isShow=true
+                this.indexList.forEach(item=>{
+                    if(ids.indexOf(item.pid)!=-1){
+                        isShow=false
+                    }
+                })
+                if(!isShow){
+                    this.$message({
+                        type: 'warning',
+                        message: '首页展示中!'
+                    });
+                    return
                 }
                 http.post('/product/delProduct',query,(res)=>{
                     this.$message({
@@ -410,6 +422,7 @@ export default{
                 });
             })
         },
+
         // 添加
         add(){
             this.$router.push({

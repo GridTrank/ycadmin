@@ -145,7 +145,6 @@ export default{
                 store_name:store_name[0].store_name,
                 product_type:this.getUserInfo.userInfo.role_level
             }
-
             if(this.pageType=='add'){
                 http.post('/product/addProduct',data,(res)=>{
                     this.$message({
