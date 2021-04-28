@@ -20,8 +20,6 @@ export default{
                 {name:'按当前页',value:2},
                 {name:'按勾选条件',value:3},
             ],
-
-
             queryData:{},
             pager:{
                 page:1,
@@ -203,9 +201,9 @@ export default{
         getStoreList(){
             http.post('/store/storeList',{},(res)=>{
                 if(res){
-                    this.storeList=res
+                    this.storeList=res.storeList
                     let arr=[]
-                    res.forEach(item=>{
+                    res.storeList.forEach(item=>{
                         if(item.store_name){
                             arr.push({
                                 label:item.store_name,
@@ -256,117 +254,11 @@ export default{
                 }
             })
         },
-        //批量修改
-        batchModify(data){
-            this.isBatch=true
-            this.dialogTableVisible=true
-            this.diaTitle='批量修改'
-            this.changeCondition(0)
-        },
-        //切换修改条件
-        changeCondition(val){
-            let condition=this.editData.condition
-            let data=JSON.parse(JSON.stringify(this.queryData)) 
-            if(condition===1){
-                data.page=1
-                data.rows=9999
-                this.getProductCost(data)
-            }else if(condition===2){
-                data.page=this.pager.page
-                data.rows=this.pager.rows
-                this.getProductCost(data)
-            }else{
-                if(this.selectOption.length<=0){
-                    this.$message.error("请至少选择一个条件")
-                    this.editData.condition=1
-                    return
-                }else{
-                    this.changeEditData=this.selectOption
-                }
-            }
-        },
-        //获取修改数据
-        getProductCost(data){
-            http.post('/warn_product/index',data,(res)=>{
-                this.changeEditData=res.items              
-            })
-        },
-        //确认修改
-        change(formName){
-            let changeEditData=this.changeEditData
-            let editData=this.editData
-            if(!editData.costPrice && !editData.productType){
-                this.dialogTableVisible=false
-                return
-            }
-            this.$refs[formName].validate((valid)=>{
-                if(valid){
-                    let data=[]
-                    changeEditData.forEach(item=>{
-                        let obj={}
-                        let costPrice = 0;
-                        let costNum = Number(editData.costNum);
-                        switch (editData.costPrice){
-                            case 0:
-                                costPrice=item.costPrice
-                                break;
-                            case 1:
-                                costPrice=costNum
-                                break;
-                            case 2:
-                                costPrice=Number(item.originalPrice) + costNum
-                                break;
-                            case 3:
-                                costPrice=Number(item.originalPrice) * costNum
-                                break;
-                            case 4:
-                                costPrice=Number(item.costPrice) + costNum
-                                break;
-                            case 5:
-                                costPrice=Number(item.costPrice) * costNum
-                                break;
-                        }
-                        obj.costPrice=costPrice
-                        obj.originalPrice=item.originalPrice
-                        editData.productType?obj.productType=editData.productType:delete obj.productType
-                        obj.warnProductId=item.warnProductId
-                        data.push(obj)
-                    })
-                    const loading = this.$loading({
-                        lock: true,
-                        text: 'Loading',
-                        spinner: 'el-icon-loading',
-                        background: 'rgba(0, 0, 0, 0.7)'
-                    });
-                    http.post("/warn_product/edit",data,(res)=>{
-                        loading.close()
-                        if(res){
-                            this.$message({
-                                message:'修改成功',
-                                type:'success'
-                            })
-                            this.dialogTableVisible=false
-                            this.getData({})
-                        }
-                    })
-                }else{
-                    return false
-                }
-            })
-        },
         closeDia(formName){
             this.dialogTableVisible=false
             this.$refs[formName].resetFields();
         },
-        // 跳转变更日志
-        redirect(data){
-            this.$router.push({
-                path:'/ChangeLog',
-                query:{
-                    productBn:data.productBn
-                }
-            })
-        },
+       
         //选择
         select(data){
             this.selectOption=data
@@ -422,7 +314,6 @@ export default{
                 });
             })
         },
-
         // 添加
         add(){
             this.$router.push({

@@ -1,12 +1,12 @@
 <template>
     <div class="date-wrap">
-        <el-select v-model="dateType" style="width:100px;" placeholder="请选择"  @change="selectType">
+        <!-- <el-select v-model="dateType" style="width:100px;" placeholder="请选择"  @change="selectType">
             <el-option
             v-for="(date,index) in selectDateData" :key="index"
             :label="date.label"
             :value="date.value"
             ></el-option>
-        </el-select>
+        </el-select> -->
 
         <el-date-picker
             v-model="selectDate"

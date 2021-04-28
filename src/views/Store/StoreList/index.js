@@ -15,32 +15,13 @@ export default{
             },
             searchFrom:[
                 {
-                    label:'会员昵称:',
+                    label:'店铺名称:',
                     type:'text',
-                    value:'nickName',
+                    value:'store_name',
                     clear:true,
                     search:'like',
-                    placeholder:'请输入会员昵称',
+                    placeholder:'请输入店铺名称',
                     style:'width:150px'
-                },
-                {
-                    label:'联系方式:',
-                    type:'text',
-                    value:'mobile',
-                    clear:true,
-                    search:'like',
-                    placeholder:'请输入联系方式',
-                    style:'width:150px'
-                },
-                {
-                    type:'select',
-                    value:'store_id',
-                    label:'所属店铺',
-                    search:'eq',
-                    placeholder:'请选择',
-                    selectFrom:[
-           
-                    ]
                 },
                 {
                     type:'date',
@@ -48,7 +29,18 @@ export default{
                     search:'between',
                     label:'创建时间',
                 },
-                
+                {
+                    type:'select',
+                    value:'role_level',
+                    label:'店铺等级',
+                    search:'eq',
+                    placeholder:'请选择',
+                    selectFrom:[
+                        {value:'1',label:'超级管理员'},
+                        {value:'2',label:'官网'},
+                        {value:'3',label:'商家店铺'},
+                    ]
+                },
                 {
                     type:'btn',
                     btntxt:'搜索',
@@ -71,20 +63,16 @@ export default{
             tableData:[],
             columnData:[
                 {
-                    prop:'nickName',
-                    label:'昵称',
+                    prop:'store_name',
+                    label:'店铺名称',
                 },
                 {
-                    prop:'identity',
-                    label:'身份',
+                    prop:'role_level',
+                    label:'等级',
                 },
                 {
                     prop:'post_share_key',
-                    label:'商家识别码',
-                },
-                {
-                    prop:'get_share_key',
-                    label:'商家会员识别码',
+                    label:'分享key',
                 },
                 {
                     prop:'mobile',
@@ -122,7 +110,6 @@ export default{
       },
     created(){
         this.getData({})
-        this.getStoreList()
     },
     methods:{
         //搜索
@@ -135,48 +122,9 @@ export default{
         getData(data){
             data.page=this.pager.page
             data.row=this.pager.rows
-            data.store_id= data.store_id?data.store_id[1]:'' || Number(this.getUserInfo.userInfo.store_id)
-            http.post("/member/memberList",data,(res)=>{
-                res.memberList.forEach(item=>{
-                    if(item.post_share_key){
-                        item.identity='商家-'+item.store_name
-                    }else if(item.get_share_key){
-                        item.identity='商家会员-'+item.store_name
-                    }
-                })
-                this.tableData=res.memberList
+            http.post("/store/storeList",data,(res)=>{
+                this.tableData=res.storeList
                 this.count=res.count
-            })
-        },
-        getStoreList(){
-            http.post('/store/storeList',{},(res)=>{
-                if(res){
-                    this.storeList=res.storeList
-                    let arr=[]
-                    res.storeList.forEach(item=>{
-                        if(item.store_name){
-                            arr.push({
-                                label:item.store_name,
-                                value:item.store_id,
-                            })
-                        }
-                    })
-                    let sid=Number(this.getUserInfo.userInfo.store_id) 
-                    if(sid===1){
-                        arr.forEach(i=>{
-                            this.searchFrom[2].selectFrom.push(i)
-                        })
-                    }else{
-                        this.searchFrom[2].selectFrom=arr.filter(item=>{
-                            return sid==item.store_id
-                        })
-                        arr.forEach(i=>{
-                            if(sid==i.value){
-                                this.searchFrom[2].selectFrom.push(i)
-                            }
-                        })
-                    }
-                }
             })
         },
         //单个修改

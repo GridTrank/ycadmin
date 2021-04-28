@@ -27,7 +27,7 @@
                               <img src="../assets/images/icon_default.png" alt="" srcset="">
                           </div>
                           <div class="name">
-                              {{getUserInfo.userInfo.nick_name}}
+                              {{getUserInfo.userInfo.store_name}}
                           </div>
                       </div>
                       <el-dropdown-menu slot="dropdown">

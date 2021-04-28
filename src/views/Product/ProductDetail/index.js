@@ -83,6 +83,7 @@ export default{
             this.fileData.img_type='banner'
         },
         fileSuccess(res,file, fileList){
+            console.log(file)
             this.imgList.push(res)
         },
         fileRemove(file,fileList){

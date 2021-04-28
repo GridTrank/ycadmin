@@ -91,7 +91,7 @@ api.put = (url, data, callback,failcallback,status,jsonState) => {
 
 // --------------data数据直接写在链接上------------------//
 api.get = (url, callback,failcallback,status) => {
-    return axios.get('http://47.112.113.38:3000' + url )
+    return axios.get('http://120.77.246.130:3000' + url )
     // return axios.get(config.Domain + url )
     // .then( response => response.json())
     .then((result) =>{

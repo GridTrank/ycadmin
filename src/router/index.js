@@ -47,21 +47,21 @@ const routes= [
       component: (resolve) => require(['@/views/Order/OrderDetail/index.vue'], resolve)
     },
     {
-      path: '/User/List',
-      name: 'UserList',
+      path: '/Store/List',
+      name: 'StoreList',
       meta: { pageTitle: "商家列表", keepAlive: true},
-      component: (resolve) => require(['@/views/User/UserList/index.vue'], resolve)
+      component: (resolve) => require(['@/views/Store/StoreList/index.vue'], resolve)
     },
     {
-      path: '/User/Detail',
-      name: 'UserRoleManage',
+      path: '/Store/RoleManage',
+      name: 'StoreRoleManage',
       meta: { pageTitle: "商家角色管理", keepAlive: true},
-      component: (resolve) => require(['@/views/User/RoleManage/index.vue'], resolve)
+      component: (resolve) => require(['@/views/Store/RoleManage/index.vue'], resolve)
     },
     {
       path: '/Member/List',
       name: 'MemberList',
-      meta: { pageTitle: "商家角色管理", keepAlive: true},
+      meta: { pageTitle: "会员列表", keepAlive: true},
       component: (resolve) => require(['@/views/Member/List/index.vue'], resolve)
     },
   

@@ -50,8 +50,11 @@ export default{
                 if(res){
                     res.productList.forEach(item=>{
                         this.productList.push({
-                            pid:item.pid,
-                            product_name:item.product_name
+                            pid:String(item.pid),
+                            product_name:item.product_name,
+                            product_price:item.product_price,
+                            product_describe:item.product_describe,
+                            stock:item.stock,
                         })
                     })
                 }
@@ -68,10 +71,16 @@ export default{
                 })
                 return
             }
-            let arr=[]
             this.dataList.forEach(el=>{
                 delete el.fileList
-                arr.push(Object.values(el))
+                this.productList.forEach(item=>{
+                    if(el.pid==item.pid){
+                        el.product_name=item.product_name
+                        el.product_price=item.product_price
+                        el.product_describe=item.product_describe
+                        el.stock=item.stock
+                    }
+                })
             })
             http.post('/product/addIndex',{data:this.dataList},res=>{
                 this.$message({

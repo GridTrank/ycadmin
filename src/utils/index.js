@@ -28,8 +28,8 @@ export const getDate=function(_,type,value){
         if(type=='day'){
             var d1=new Date(value[0])
             var d2=new Date(value[1])
-            value[0]=d1.getFullYear() + '-' + (d1.getMonth() + 1) + '-' + d1.getDate();
-            value[1]=d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate();
+            value[0]=d1.getFullYear() + '-' + 0+(d1.getMonth() + 1) + '-' + d1.getDate();
+            value[1]=d2.getFullYear() + '-' +  0+(d2.getMonth() + 1) + '-' + d2.getDate();
             return value
         }else if(type=='week'){
             var newDate = new Date(value);

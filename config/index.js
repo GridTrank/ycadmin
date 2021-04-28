@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/': {
         // target: 'http://127.0.0.1:3000',  //目标接口域名
-        target: 'http://47.112.113.38:3000',  //目标接口域名
+        target: 'http://120.77.246.130:3000',  //目标接口域名
         changeOrigin: true,  //是否跨域
         pathRewrite: {
           '^/': ''   //重写接口

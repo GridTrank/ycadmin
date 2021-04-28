@@ -21,7 +21,7 @@
           </el-form-item>
           <el-form-item label="主图">
             <el-upload
-              action="http://47.112.113.38:3000/product/productBanner"
+              action="http://120.77.246.130:3000/product/productBanner"
               :file-list="fileList"
               ref="upload"
               list-type="picture-card"
@@ -43,7 +43,7 @@
 
           <el-form-item label="详情图">
             <el-upload
-              action="http://47.112.113.38:3000/product/detailImg"
+              action="http://120.77.246.130:3000/product/detailImg"
               :file-list="fileListDetail"
               ref="uploads"
               list-type="picture-card"
